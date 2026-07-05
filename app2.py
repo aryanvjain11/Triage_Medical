@@ -607,6 +607,33 @@ def chat():
     except Exception:
         return jsonify({"reply": build_local_chat_reply(msg, language)})
 
-
+@app.route('/debug-api-test', methods=['GET'])
+def debug_api_test():
+    openai_key_exists = bool(os.getenv("OPENAI_API_KEY"))
+    groq_key_exists = bool(os.getenv("GROQ_API_KEY"))
+    
+    diagnostic_info = {
+        "openai_key_present_in_environment": openai_key_exists,
+        "groq_key_present_in_environment": groq_key_exists,
+        "error_logs": "None"
+    }
+    
+    # Try running a test completion
+    try:
+        from openai import OpenAI
+        # Using whatever client setup your app uses internally
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        test_resp = client.chat.completions.create(
+            model="gpt-3.5-turbo", # Change to your selected_model name if using Groq
+            messages=[{"role": "user", "content": "Ping"}],
+            max_tokens=5
+        )
+        diagnostic_info["api_test_connection"] = "SUCCESS"
+        diagnostic_info["api_test_response"] = test_resp.choices[0].message.content
+    except Exception as e:
+        diagnostic_info["api_test_connection"] = "FAILED"
+        diagnostic_info["error_logs"] = str(e)
+        
+    return jsonify(diagnostic_info)
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port=int(os.getenv("PORT", "5000")))
