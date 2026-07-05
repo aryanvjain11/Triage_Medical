@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template_string
-from openai import OpenAI
+from groq import Groq
 from dotvenv import load_dotenv
 import os
 import json
@@ -144,22 +144,28 @@ def select_client_for_model(model_name):
     return groq_client or openai_client
 
 
-def run_model_completion(model_name, prompt, temperature=0.0, response_format=None, max_tokens=None):
-    client = select_client_for_model(model_name)
-    if not client:
-        raise RuntimeError("No AI client is configured for the selected model.")
+def run_model_completion(model_name, prompt_content, temperature=0.3, max_tokens=300):
+    # Force the app to use Groq's API key from your Render Environment
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY is missing from the environment configuration!")
+        
+    # Initialize the Groq client
+    client = Groq(api_key=api_key)
+    
+    # Strip away frontend routing prefixes if they exist
+    clean_model = model_name
+    if "groq/" in model_name:
+        clean_model = model_name.split("/")[-1] # Converts "groq/llama-3.3-70b-versatile" -> "llama-3.3-70b-versatile"
 
-    model_for_api = str(model_name).split("/", 1)[1] if str(model_name).startswith("groq/") else str(model_name)
-    kwargs = {
-        "model": model_for_api,
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": temperature,
-    }
-    if response_format is not None:
-        kwargs["response_format"] = response_format
-    if max_tokens is not None:
-        kwargs["max_tokens"] = max_tokens
-    return client.chat.completions.create(**kwargs)
+    # Make the native Groq completion request
+    completion = client.chat.completions.create(
+        model=clean_model,
+        messages=[{"role": "user", "content": prompt_content}],
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+    return completion
 
 
 def local_fallback_engine(user_text, vitals, allergies="", medications=""):
