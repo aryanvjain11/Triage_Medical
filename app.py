@@ -7,7 +7,7 @@ import re
 import webbrowser
 from threading import Timer
 from datetime import datetime
-
+a=1
 load_dotenv()
 
 app = Flask(__name__)
