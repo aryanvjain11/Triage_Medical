@@ -135,7 +135,6 @@ def run_model_completion(model_name, prompt_content, temperature=0.3, max_tokens
     if not groq_client:
         raise ValueError("Groq client is uninitialized. Verify your GROQ_API_KEY.")
         
-    # Strip frontend routing prefixes if they exist
     clean_model = model_name
     if "groq/" in model_name:
         clean_model = model_name.split("/")[-1]
@@ -227,9 +226,11 @@ def local_fallback_engine(user_text, vitals, allergies="", medications=""):
 
     symptom_candidates = translated_terms or [kw.replace("_", " ") for kw in clinical_keywords[:3]] or infer_symptom_terms(user_text)
 
+    explanation_text = f"Calculated safely via strict local rule boundaries. Evaluated fields: HR={hr}, BP Systolic={systolic}, SpO2={spo2}%, Temp={temp}°F. Keyword cues detected: {', '.join(clinical_keywords) if clinical_keywords else 'none'}."
+
     return {
         "translation": f"[Vitals-Linked Local Fallback] {translation_str}",
-        "native_audio_script": "Hemos recibido sus signos vitales y datos clínicos con éxito." if lang == "es" else "Intake parameters integrated successfully into local records.",
+        "native_audio_script": explanation_text,
         "symptoms": symptom_candidates,
         "body_part": "Cardiopulmonary System" if urgency_score <= 2 else "General Evaluation Needed",
         "pain_level": "Severe" if urgency_score == 1 else "Moderate",
@@ -239,7 +240,7 @@ def local_fallback_engine(user_text, vitals, allergies="", medications=""):
         "category": category,
         "red_flags": red_flags,
         "confidence": 0.75,
-        "explanation": f"Calculated safely via strict local rule boundaries. Evaluated fields: HR={hr}, BP Systolic={systolic}, SpO2={spo2}%, Temp={temp}°F. Keyword cues detected: {', '.join(clinical_keywords) if clinical_keywords else 'none'}."
+        "explanation": explanation_text
     }
 
 
@@ -263,12 +264,12 @@ ESI SCORE ASSIGNMENT CRITERIA MANDATE:
 2. LEVEL 2 (HIGH): If SpO2 is 90-94%, Systolic BP > 180 mmHg or < 90 mmHg, Temp >= 103.0°F or <= 95.0°F, HR > 110 bpm or < 50 bpm, or if severe sudden chest pain or respiratory distress is declared.
 3. LEVEL 3 (MEDIUM): Hemodynamically stable parameters but requires multi-resource diagnostic screening.
 
-DIRECTIVE: Translate the user text to medical English prose inside the "translation" field. Do not copy or echo the original foreign text into English fields.
+DIRECTIVE: Translate the user text to medical English prose inside the "translation" field. Do not copy or echo the original foreign text into English fields. Ensure "native_audio_script" contains the complete clinical rationale explanation so that it can be read aloud directly via text-to-speech.
 
 Return ONLY a valid JSON object matching this schema precisely:
 {{
   "translation": "Objective medical English translation of the history of present illness",
-  "native_audio_script": "Short, reassuring summary in the patient's native language explaining their steps.",
+  "native_audio_script": "Explicit clinical rationale explaining how symptoms and vital boundaries determined this ESI level, written in plain text for speech output.",
   "symptoms": ["Symptom1", "Symptom2"],
   "body_part": "Anatomical zone",
   "pain_level": "Mild/Moderate/Severe",
@@ -498,12 +499,18 @@ def inject_ui_shell(html_content):
 
 
 def serve_html(path):
+    target_path = path
+    if not target_path.exists():
+        alt_lower = path.parent / path.name.lower()
+        if alt_lower.exists():
+            target_path = alt_lower
+
     try:
-        with path.open("r", encoding="utf-8") as f:
+        with target_path.open("r", encoding="utf-8") as f:
             html_content = f.read()
         return render_template_string(inject_ui_shell(html_content))
     except FileNotFoundError:
-        return f"{path.name} file not found in execution directory.", 404
+        return f"HTML file '{path.name}' not found in execution directory.", 404
 
 
 @app.route("/")
@@ -512,6 +519,7 @@ def index():
 
 
 @app.route("/Index2.html")
+@app.route("/index2.html")
 @app.route("/dashboard")
 def dashboard():
     return serve_html(INDEX2_FILE)
@@ -600,8 +608,6 @@ def chat():
 @app.route('/debug-api-test', methods=['GET'])
 def debug_api_test():
     groq_key_exists = bool(os.getenv("GROQ_API_KEY"))
-    
-    # Capture all environment variable names to check for typos/casing
     visible_env_keys = list(os.environ.keys())
     
     diagnostic_info = {

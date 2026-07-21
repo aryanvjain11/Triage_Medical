@@ -537,12 +537,12 @@
     <div class="header-stats">
         <div class="hstat">
             <div class="hstat-val" id="stat-count">0</div>
-            <div class="hstat-lbl" id="ui-lbl-waiting">Waiting</div>
+            <div class="hstat-lbl">Waiting</div>
         </div>
         <div class="header-sep"></div>
         <div class="hstat">
             <div class="hstat-val danger" id="stat-critical">0</div>
-            <div class="hstat-lbl" id="ui-lbl-critical">Critical</div>
+            <div class="hstat-lbl">Critical</div>
         </div>
         <div class="header-sep"></div>
         <div style="display:flex; align-items:center; gap:8px;">
@@ -564,11 +564,15 @@
     <div style="display:flex; flex-direction:column; gap:16px;">
 
         <div class="card">
-            <div class="card-title" id="ui-title-intake">📥 Patient Intake <span>· Multilingual</span></div>
+            <div class="card-title">📥 Patient Intake <span>· Multilingual</span></div>
 
             <label id="ui-lbl-model">AI Model Pipeline</label>
             <select id="model-select">
                 <option value="groq/llama-3.3-70b-versatile">⚡ Groq: Llama 3.3 70B (Ultra Fast)</option>
+                <option value="gpt-4o-mini">💡 OpenAI: GPT-4o Mini (Cost Effective)</option>
+                <option value="gpt-4o">🔮 OpenAI: GPT-4o (Multimodal)</option>
+                <option value="qwen/qwen-2.5-72b-instruct">🔬 OpenRouter: Qwen 2.5 72B (Clinical)</option>
+                <option value="anthropic/claude-3.5-sonnet">🧠 OpenRouter: Claude 3.5 Sonnet (Advanced)</option>
             </select>
 
             <div class="two-col">
@@ -584,10 +588,10 @@
 
             <label id="ui-lbl-quick">Quick Symptom Indicators</label>
             <div class="quick-row">
-                <div class="qbtn" id="qbtn-chest" onclick="injectQuickIndicator('❤️ Severe Chest Discomfort / Crushing Chest Pain')">❤️<br>Chest Pain</div>
-                <div class="qbtn" id="qbtn-breath" onclick="injectQuickIndicator('💨 Severe Difficulty Breathing / Shortness of Breath')">💨<br>Breathing</div>
-                <div class="qbtn" id="qbtn-bleed" onclick="injectQuickIndicator('🩸 Severe Uncontrolled Bleeding / Trauma Active Injury')">🩸<br>Bleeding</div>
-                <div class="qbtn" id="qbtn-head" onclick="injectQuickIndicator('🧠 Acute Sudden Headache / Head Trauma and Dizziness')">🧠<br>Head</div>
+                <div class="qbtn" onclick="injectQuickIndicator('❤️ Severe Chest Discomfort / Crushing Chest Pain')">❤️<br>Chest Pain</div>
+                <div class="qbtn" onclick="injectQuickIndicator('💨 Severe Difficulty Breathing / Shortness of Breath')">💨<br>Dyspnea</div>
+                <div class="qbtn" onclick="injectQuickIndicator('🩸 Severe Uncontrolled Bleeding / Trauma Active Injury')">🩸<br>Bleeding</div>
+                <div class="qbtn" onclick="injectQuickIndicator('🧠 Acute Sudden Headache / Head Trauma and Dizziness')">🧠<br>Head</div>
             </div>
 
             <label id="ui-lbl-vitals">Vital Parameters</label>
@@ -614,21 +618,21 @@
                 <button id="ui-btn-analyze" onclick="analyzeSymptoms()" class="btn-primary">🔍 Run Triage Analysis</button>
                 <button id="ui-btn-voice-out" onclick="speakRecommendation()" class="btn-secondary">🔊</button>
                 <button onclick="window.print()" class="btn-secondary">🖨️</button>
-                <button id="ui-btn-clear-form" class="btn-danger" onclick="masterFormClearReset()">Clear</button>
+                <button class="btn-danger" onclick="masterFormClearReset()">Clear</button>
             </div>
             <div id="voice-status" class="voice-status"></div>
         </div>
 
         <!-- CHAT -->
         <div class="card">
-            <div class="card-title" id="ui-title-chat">💬 Waiting Room Assistant <span>· Multilingual AI</span></div>
+            <div class="card-title">💬 Waiting Room Assistant <span>· Multilingual AI</span></div>
             <div class="chat-box" id="chat-stream">
                 <div class="bubble bubble-bot" id="chat-welcome-bubble">Hello — I'm your digital waiting room assistant. Ask about wait times, amenities, or anything else while you wait.</div>
             </div>
             <div class="chat-input-row">
                 <input type="text" id="chat-input" placeholder="Ask about wait times, procedures, amenities..." onkeydown="if(event.key==='Enter')sendChatMessage()">
-                <button id="ui-btn-send" class="btn-primary" onclick="sendChatMessage()" style="flex:0; white-space:nowrap;">Send</button>
-                <button id="ui-btn-clear-chat" class="btn-danger" onclick="clearChatWorkspace()">✕</button>
+                <button class="btn-primary" onclick="sendChatMessage()" style="flex:0; white-space:nowrap;">Send</button>
+                <button class="btn-danger" onclick="clearChatWorkspace()">✕</button>
             </div>
         </div>
 
@@ -639,7 +643,7 @@
 
         <!-- QUEUE BOARD -->
         <div class="card">
-            <div class="card-title" id="ui-title-queue">📋 Priority Triage Queue <span id="ui-lbl-queue-title"></span></div>
+            <div class="card-title">📋 Priority Triage Queue <span id="ui-lbl-queue-title"></span></div>
             <div id="virtual-queue" class="queue-list">
                 <div class="idle-state">
                     <div class="idle-icon">📋</div>
@@ -674,22 +678,8 @@ const dictionary = {
         "hr": "HR bpm", "bp": "BP 120/80", "spo2": "SpO2 %", "temp": "Temp °F",
         "allergies": "Drug Allergies", "meds": "Active Medications",
         "quick": "Quick Symptom Indicators", "model": "AI Model Pipeline",
-        "waiting": "Waiting", "critical": "Critical",
-        "clear": "Clear", "send": "Send", "clearChat": "✕",
-        "quickChest": "Chest Pain", "quickBreath": "Breathing", "quickBleed": "Bleeding", "quickHead": "Head",
-        "loading": "Routing through AI pipeline · Calculating ESI classification...",
-        "queueEmpty": "No patients in queue.<br>Process an intake to populate the triage line.",
-        "voiceUnavailable": "⚠ Speech interface unavailable", "voiceRecording": "🎙 Recording — speak now...", "voiceCaptured": "✔ Audio captured", "voiceFailed": "⚠ Recording failed",
-        "analysisError": "⚠ Connection failure to triage backplane — check that app2.py is running.",
-        "resultsTitle": "🔬 Clinical ESI Profile", "verbatim": "Verbatim Intake", "clinicalTranslation": "Clinical English Translation", "clinicalKeywords": "Clinical Keywords", "anatomicalZone": "Anatomical Zone", "timeline": "Timeline", "redFlags": "Red Flags & Physiological Alerts", "painAssessment": "Pain Assessment", "nativeLanguageResponse": "Native Language Response",
-        "chatTitle": "💬 Waiting Room Assistant",
-        "chatWelcome": "Hello — I'm your digital waiting room assistant. Ask about wait times, amenities, or anything else while you wait.",
-        "chatPlaceholder": "Ask about wait times, procedures, amenities...",
-        "studioControls": "Studio Controls",
-        "visualTheme": "Visual Theme",
-        "musicTheme": "Music Theme",
-        "controlsHint": "Visual themes adjust the dashboard palette and music themes add ambient soundscapes.",
-        "musicToggle": "Play/Stop"
+        "chatTitle": "💬 Waiting Room Assistant · Multilingual AI",
+        "chatWelcome": "Hello — I'm your digital waiting room assistant. Ask about wait times, amenities, or anything else while you wait."
     },
     "Spanish": {
         "mainTitle": "🏥 Centro de Triaje Clínico IA", "subTitle": "⚡ Terminal de Admisión de Medicina de Emergencia",
@@ -701,22 +691,8 @@ const dictionary = {
         "hr": "FC lpm", "bp": "PA 120/80", "spo2": "SpO2 %", "temp": "Temp °F",
         "allergies": "Alergias a Medicamentos", "meds": "Medicamentos Activos",
         "quick": "Indicadores Rápidos de Síntomas", "model": "Canal de Modelo IA",
-        "waiting": "Esperando", "critical": "Crítico",
-        "clear": "Limpiar", "send": "Enviar", "clearChat": "✕",
-        "quickChest": "Dolor de Pecho", "quickBreath": "Respiración", "quickBleed": "Sangrado", "quickHead": "Cabeza",
-        "loading": "Enrutando por la canal de IA · Calculando clasificación ESI...",
-        "queueEmpty": "No hay pacientes en la cola.<br>Procese una admisión para poblar la fila.",
-        "voiceUnavailable": "⚠ La interfaz de voz no está disponible", "voiceRecording": "🎙 Grabando — hable ahora...", "voiceCaptured": "✔ Audio capturado", "voiceFailed": "⚠ La grabación falló",
-        "analysisError": "⚠ Fallo de conexión con la plataforma de triaje — verifique que app2.py esté ejecutándose.",
-        "resultsTitle": "🔬 Perfil Clínico ESI", "verbatim": "Ingreso Literal", "clinicalTranslation": "Traducción Clínica al Inglés", "clinicalKeywords": "Palabras Clave Clínicas", "anatomicalZone": "Zona Anatómica", "timeline": "Línea de Tiempo", "redFlags": "Señales de Alerta y Alertas Fisiológicas", "painAssessment": "Evaluación del Dolor", "nativeLanguageResponse": "Respuesta en Lengua Materna",
-        "chatTitle": "💬 Asistente de Sala de Espera",
-        "chatWelcome": "Hola — soy su asistente digital de sala de espera. Pregunte sobre tiempos de espera, comodidades o cualquier cosa mientras espera.",
-        "chatPlaceholder": "Pregunte sobre tiempos de espera, procedimientos o comodidades...",
-        "studioControls": "Controles del estudio",
-        "visualTheme": "Tema visual",
-        "musicTheme": "Tema musical",
-        "controlsHint": "Los temas visuales ajustan la paleta del tablero y los temas musicales añaden ambientes sonoros.",
-        "musicToggle": "Reproducir/Detener"
+        "chatTitle": "💬 Asistente de Sala de Espera · IA Multilingüe",
+        "chatWelcome": "Hola — soy su asistente digital de sala de espera. Pregunte sobre tiempos de espera, comodidades o cualquier cosa mientras espera."
     },
     "Hindi": {
         "mainTitle": "🏥 क्लिनिकल AI ट्राइएज हब", "subTitle": "⚡ आपातकालीन चिकित्सा टर्मिनल",
@@ -728,21 +704,8 @@ const dictionary = {
         "hr": "हृदय गति", "bp": "रक्तचाप", "spo2": "SpO2 %", "temp": "तापमान °F",
         "allergies": "दवा एलर्जी", "meds": "सक्रिय दवाएं",
         "quick": "त्वरित लक्षण संकेतक", "model": "AI मॉडल पाइपलाइन",
-        "waiting": "प्रतीक्षा", "critical": "गंभीर", "clear": "साफ करें", "send": "भेजें", "clearChat": "✕",
-        "quickChest": "छाती में दर्द", "quickBreath": "सांस", "quickBleed": "खून बहना", "quickHead": "सर",
-        "loading": "AI पाइपलाइन से आगे बढ़ रहा है · ESI वर्गीकरण की गणना हो रही है...",
-        "queueEmpty": "कतार में कोई मरीज नहीं है।<br>क्यू populate करने के लिए Intake करें।",
-        "voiceUnavailable": "⚠ वॉइस इंटरफेस उपलब्ध नहीं है", "voiceRecording": "🎙 रिकॉर्डिंग — अभी बोलें...", "voiceCaptured": "✔ ऑडियो कैप्चर हो गया", "voiceFailed": "⚠ रिकॉर्डिंग विफल",
-        "analysisError": "⚠ ट्राइएज बैकप्लेन से कनेक्शन विफल — app2.py चल रहा है कि नहीं जांचें।",
-        "resultsTitle": "🔬 नैदानिक ESI प्रोफ़ाइल", "verbatim": "शब्दशः Aufnahme", "clinicalTranslation": "नैदानिक अंग्रेज़ी अनुवाद", "clinicalKeywords": "नैदानिक कीवर्ड", "anatomicalZone": "शरीरिक क्षेत्र", "timeline": "समय-रेखा", "redFlags": "लाल झंडे और शरीरविज्ञान संबंधी चेतावनियाँ", "painAssessment": "दर्द मूल्यांकन", "nativeLanguageResponse": "मातृभाषा प्रतिक्रिया",
-        "chatTitle": "💬 प्रतीक्षा कक्ष सहायक",
-        "chatWelcome": "नमस्ते — मैं आपका डिजिटल प्रतीक्षा कक्ष सहायक हूँ। प्रतीक्षा के दौरान मुझसे बात करें।",
-        "chatPlaceholder": "प्रतीक्षा समय, प्रक्रियाओं या सुविधाओं के बारे में पूछें...",
-        "studioControls": "स्टूडियो नियंत्रण",
-        "visualTheme": "दृश्य थीम",
-        "musicTheme": "संगीत थीम",
-        "controlsHint": "दृश्य थीम डैशबोर्ड की पृष्ठभूमि और रंग बदलती हैं, और संगीत थीम शांति भरी ध्वनियाँ जोड़ती हैं।",
-        "musicToggle": "चलाएँ/रोकें"
+        "chatTitle": "💬 प्रतीक्षा कक्ष सहायक · बहुभाषी AI",
+        "chatWelcome": "नमस्ते — मैं आपका डिजिटल प्रतीक्षा कक्ष सहायक हूँ। प्रतीक्षा के दौरान मुझसे बात करें।"
     },
     "French": {
         "mainTitle": "🏥 Hub de Triage Clinique IA", "subTitle": "⚡ Terminal de Médecine d'Urgence",
@@ -754,21 +717,8 @@ const dictionary = {
         "hr": "FC bpm", "bp": "PA 120/80", "spo2": "SpO2 %", "temp": "Temp °F",
         "allergies": "Allergies Médicamenteuses", "meds": "Médicaments Actifs",
         "quick": "Indicateurs Rapides", "model": "Pipeline de Modèle IA",
-        "waiting": "En attente", "critical": "Critique", "clear": "Effacer", "send": "Envoyer", "clearChat": "✕",
-        "quickChest": "Douleur Thoracique", "quickBreath": "Respiration", "quickBleed": "Saignement", "quickHead": "Tête",
-        "loading": "Routage via le pipeline IA · Calcul du classement ESI...",
-        "queueEmpty": "Aucun patient dans la file.<br>Traitez une admission pour alimenter la file.",
-        "voiceUnavailable": "⚠ Interface vocale indisponible", "voiceRecording": "🎙 Enregistrement — parlez maintenant...", "voiceCaptured": "✔ Audio capturé", "voiceFailed": "⚠ Échec de l'enregistrement",
-        "analysisError": "⚠ Échec de connexion au backplane de triage — vérifiez que app2.py est en cours d'exécution.",
-        "resultsTitle": "🔬 Profil Clinique ESI", "verbatim": "Entrée Verbale", "clinicalTranslation": "Traduction Clinique en Anglais", "clinicalKeywords": "Mots-Clés Cliniques", "anatomicalZone": "Zone Anatomique", "timeline": "Chronologie", "redFlags": "Drapeaux Rouges et Alertes Physiologiques", "painAssessment": "Évaluation de la Douleur", "nativeLanguageResponse": "Réponse dans la Langue Maternelle",
-        "chatTitle": "💬 Assistant de Salle d'Attente",
-        "chatWelcome": "Bonjour — je suis votre assistant virtuel de salle d'attente. Posez vos questions en attendant.",
-        "chatPlaceholder": "Posez des questions sur les délais, les procédures ou les commodités...",
-        "studioControls": "Contrôles du studio",
-        "visualTheme": "Thème visuel",
-        "musicTheme": "Thème musical",
-        "controlsHint": "Les thèmes visuels changent la palette du tableau de bord et les thèmes musicaux ajoutent une ambiance sonore.",
-        "musicToggle": "Lire/Arrêter"
+        "chatTitle": "💬 Assistant de Salle d'Attente · IA Multilingue",
+        "chatWelcome": "Bonjour — je suis votre assistant virtuel de salle d'attente. Posez vos questions en attendant."
     },
     "Mandarin": {
         "mainTitle": "🏥 临床AI多语言分诊中心", "subTitle": "⚡ 急诊医学决策支持终端",
@@ -780,20 +730,8 @@ const dictionary = {
         "hr": "心率 bpm", "bp": "血压 120/80", "spo2": "SpO2 %", "temp": "温度 °F",
         "allergies": "药物过敏史", "meds": "正在服用药物",
         "quick": "快速症状选择", "model": "AI模型管道",
-        "waiting": "等待", "critical": "危急", "clear": "清除", "send": "发送", "clearChat": "✕",
-        "quickChest": "胸痛", "quickBreath": "呼吸", "quickBleed": "出血", "quickHead": "头部",
-        "loading": "正在通过AI管道处理 · 正在计算ESI分级...",
-        "queueEmpty": "队列中暂无患者。<br>处理一条接诊后即可显示队列。",
-        "voiceUnavailable": "⚠ 语音接口不可用", "voiceRecording": "🎙 录音中 — 请现在说话...", "voiceCaptured": "✔ 已捕获音频", "voiceFailed": "⚠ 录音失败",
-        "analysisError": "⚠ 无法连接分诊后端 — 请检查 app2.py 是否正在运行。",
-        "resultsTitle": "🔬 临床ESI档案", "verbatim": "原始描述", "clinicalTranslation": "临床英文翻译", "clinicalKeywords": "临床关键词", "anatomicalZone": "解剖区域", "timeline": "时间线", "redFlags": "红色预警与生理警报", "painAssessment": "疼痛评估", "nativeLanguageResponse": "母语回复",
-        "chatTitle": "💬 候诊室助手",
-        "chatWelcome": "您好 — 我是您的数字候诊室助手。等待期间欢迎与我交流。",
-        "studioControls": "工作室控制",
-        "visualTheme": "视觉主题",
-        "musicTheme": "音乐主题",
-        "controlsHint": "视觉主题会调整仪表盘配色，音乐主题则会加入环境音效。",
-        "musicToggle": "播放/停止"
+        "chatTitle": "💬 候诊室助手 · 多语言AI",
+        "chatWelcome": "您好 — 我是您的数字候诊室助手。等待期间欢迎与我交流。"
     }
 };
 
@@ -817,42 +755,13 @@ function applyGlobalUILocalization() {
     document.getElementById("ui-btn-voice-in").innerHTML = d.voiceIn;
     document.getElementById("ui-btn-analyze").innerHTML = d.analyze;
     document.getElementById("ui-lbl-model").innerText = d.model;
-    document.getElementById("ui-lbl-waiting").innerText = d.waiting;
-    document.getElementById("ui-lbl-critical").innerText = d.critical;
-    document.getElementById("ui-btn-clear-form").innerText = d.clear;
-    document.getElementById("ui-btn-send").innerText = d.send;
-    document.getElementById("ui-btn-clear-chat").innerText = d.clearChat;
-    document.getElementById("qbtn-chest").innerHTML = "❤️<br>" + d.quickChest;
-    document.getElementById("qbtn-breath").innerHTML = "💨<br>" + d.quickBreath;
-    document.getElementById("qbtn-bleed").innerHTML = "🩸<br>" + d.quickBleed;
-    document.getElementById("qbtn-head").innerHTML = "🧠<br>" + d.quickHead;
-    document.getElementById("ui-title-intake").innerHTML = d.intake + " <span>· " + (lang === "English" ? "Multilingual" : lang === "Spanish" ? "Multilingüe" : lang === "Hindi" ? "बहुभाषी" : lang === "French" ? "Multilingue" : "多语言") + "</span>";
-    document.getElementById("ui-title-chat").innerHTML = d.chatTitle + " <span>· " + (lang === "English" ? "Multilingual AI" : lang === "Spanish" ? "IA Multilingüe" : lang === "Hindi" ? "बहुभाषी AI" : lang === "French" ? "IA Multilingue" : "多语言AI") + "</span>";
-    document.getElementById("ui-title-queue").innerHTML = d.board + " <span id=\"ui-lbl-queue-title\"></span>";
     document.getElementById("vital-hr").placeholder = d.hr;
     document.getElementById("vital-bp").placeholder = d.bp;
     document.getElementById("vital-spo2").placeholder = d.spo2;
     document.getElementById("vital-temp").placeholder = d.temp;
-    document.getElementById("chat-input").placeholder = d.chatPlaceholder || "Ask about wait times, procedures, amenities...";
-    document.getElementById("ui-btn-voice-in").innerHTML = d.voiceIn;
-    document.getElementById("ui-btn-analyze").innerHTML = d.analyze;
-    document.getElementById("ui-btn-voice-out").innerHTML = d.voiceOut;
+
     const wb = document.getElementById("chat-welcome-bubble");
     if (wb) wb.innerText = d.chatWelcome;
-
-    const shellTitle = document.getElementById("app2-shell-title");
-    if (shellTitle) shellTitle.innerText = d.studioControls || "Studio Controls";
-    const shellThemeLabel = document.getElementById("app2-theme-label");
-    if (shellThemeLabel) shellThemeLabel.innerText = d.visualTheme || "Visual Theme";
-    const shellMusicLabel = document.getElementById("app2-music-label");
-    if (shellMusicLabel) shellMusicLabel.innerText = d.musicTheme || "Music Theme";
-    const shellHint = document.getElementById("app2-music-hint");
-    if (shellHint) shellHint.innerText = d.controlsHint || "Visual themes adjust the dashboard palette and music themes add ambient soundscapes.";
-    const shellMusicButton = document.getElementById("app2-music-toggle");
-    if (shellMusicButton && !shellMusicButton.dataset.labelSet) {
-        shellMusicButton.dataset.labelSet = "true";
-        shellMusicButton.innerText = d.musicToggle || "Play/Stop";
-    }
 }
 
 function injectQuickIndicator(val) {
@@ -938,7 +847,7 @@ async function analyzeSymptoms() {
     const spo2Val = document.getElementById("vital-spo2").value;
     const tempVal = document.getElementById("vital-temp").value;
 
-    document.getElementById("results").innerHTML = `<div class="loading-state"><div class="spinner"></div><span>${(dictionary[language]||dictionary["English"]).loading}</span></div>`;
+    document.getElementById("results").innerHTML = `<div class="loading-state"><div class="spinner"></div><span>Routing through AI pipeline · Calculating ESI classification...</span></div>`;
     document.getElementById("results-zone").className = "card results-zone";
 
     const payload = {
@@ -965,8 +874,7 @@ async function analyzeSymptoms() {
         queueListArray.push({ id: ptId, score: data.urgency_score, category: data.category, symptom: data.symptoms[0] || "Patient Concerns" });
         rebuildControlQueueUI();
     } catch(err) {
-        const d = dictionary[language] || dictionary["English"];
-        document.getElementById("results").innerHTML = `<div class="idle-state" style="color:var(--red);">${d.analysisError}</div>`;
+        document.getElementById("results").innerHTML = `<div class="idle-state" style="color:var(--red);">⚠ Connection failure to triage backplane — check that app.py is running.</div>`;
     }
 }
 
@@ -978,7 +886,6 @@ function renderResults(ptId) {
     const v = pt.rawVitals;
     const resultsDiv = document.getElementById("results");
     const zone = document.getElementById("results-zone");
-    const d = dictionary[document.getElementById("language").value] || dictionary["English"];
 
     let hr = parseFloat(v.hr) || 0;
     let spo2 = parseFloat(v.spo2) || 0;
@@ -1004,7 +911,7 @@ function renderResults(ptId) {
     const esiClass = data.urgency_score === 1 ? "crit" : data.urgency_score === 2 ? "high" : data.urgency_score === 3 ? "med" : "low";
 
     resultsDiv.innerHTML = `
-        <div class="card-title">${d.resultsTitle} <span>· ${ptId}</span></div>
+        <div class="card-title">🔬 Clinical ESI Profile <span>· ${ptId}</span></div>
 
         <div class="esi-header ${esiClass}">
             <div class="esi-num">ESI-${data.urgency_score}</div>
@@ -1017,57 +924,57 @@ function renderResults(ptId) {
 
         <div class="metric-row">
             <div class="metric-chip">
-                <div class="metric-lbl">${d.heartRate || 'Heart Rate'}</div>
+                <div class="metric-lbl">Heart Rate</div>
                 <div class="metric-val ${hr > 130 || hr < 50 ? 'danger' : hr > 110 ? 'warn' : ''}">${hr ? hr + ' bpm' : '—'}</div>
             </div>
             <div class="metric-chip">
-                <div class="metric-lbl">${d.bloodPressure || 'Blood Pressure'}</div>
+                <div class="metric-lbl">Blood Pressure</div>
                 <div class="metric-val">${v.bp || '—'}</div>
             </div>
             <div class="metric-chip">
-                <div class="metric-lbl">${d.spo2Label || 'SpO2'}</div>
+                <div class="metric-lbl">SpO2</div>
                 <div class="metric-val ${spo2Class}">${spo2 ? spo2 + '%' : '—'}</div>
             </div>
             <div class="metric-chip">
-                <div class="metric-lbl">${d.temperatureLabel || 'Temperature'}</div>
+                <div class="metric-lbl">Temperature</div>
                 <div class="metric-val ${temp >= 103 || temp <= 95 ? 'warn' : ''}">${temp ? temp + '°F' : '—'}</div>
             </div>
             <div class="metric-chip">
-                <div class="metric-lbl">${d.mapLabel || 'MAP'}</div>
+                <div class="metric-lbl">MAP</div>
                 <div class="metric-val">${map}</div>
             </div>
             <div class="metric-chip">
-                <div class="metric-lbl">${d.shockIndexLabel || 'Shock Index'}</div>
+                <div class="metric-lbl">Shock Index</div>
                 <div class="metric-val ${siClass}">${shockIndex}</div>
             </div>
         </div>
 
         <div class="result-two-col">
             <div class="result-block">
-                <strong>${d.verbatim}</strong>
+                <strong>Verbatim Intake</strong>
                 <p>${pt.originalText}</p>
             </div>
             <div class="result-block">
-                <strong>${d.clinicalTranslation}</strong>
+                <strong>Clinical English Translation</strong>
                 <p>${data.translation}</p>
             </div>
         </div>
 
         <div class="result-two-col">
             <div class="result-block">
-                <strong>${d.clinicalKeywords}</strong>
+                <strong>Clinical Keywords</strong>
                 <p>${data.symptoms.join(", ")}</p>
-                <br><strong>${d.anatomicalZone}</strong>
+                <br><strong>Anatomical Zone</strong>
                 <p>${data.body_part}</p>
-                <br><strong>${d.timeline}</strong>
+                <br><strong>Timeline</strong>
                 <p>${data.duration}</p>
             </div>
             <div class="result-block">
-                <strong>${d.redFlags}</strong>
+                <strong>Red Flags & Physiological Alerts</strong>
                 <p class="red-flag-text">${data.red_flags.length ? data.red_flags.join(" · ") : "None flagged"}</p>
-                <br><strong>${d.painAssessment}</strong>
+                <br><strong>Pain Assessment</strong>
                 <p>${data.pain_level || "—"}</p>
-                <br><strong>${d.nativeLanguageResponse}</strong>
+                <br><strong>Native Language Response</strong>
                 <p style="font-style:italic;">${data.native_audio_script || "—"}</p>
             </div>
         </div>

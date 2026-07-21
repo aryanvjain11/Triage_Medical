@@ -2841,5 +2841,286 @@
       "confidence": 0.75,
       "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, concussion, discomfort, head injury, head trauma, headache, pain, soreness."
     }
+  },
+  {
+    "timestamp": "2026-07-20T15:36:26.523598",
+    "input_language": "English",
+    "original_text": "I have a lot of pain in my shoulder",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I have a lot of pain in my shoulder | Clinical keywords: ache, discomfort, pain, soreness",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness."
+    }
+  },
+  {
+    "timestamp": "2026-07-20T17:27:34.619292",
+    "input_language": "English",
+    "original_text": "I have a lot of pain in my head because the person to my right is singing.",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I have a lot of pain in my head because the person to my right is singing. | Clinical keywords: ache, discomfort, pain, soreness",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness."
+    }
+  },
+  {
+    "timestamp": "2026-07-20T21:34:19.001537",
+    "input_language": "English",
+    "original_text": "I have a lot of pain in my head",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I have a lot of pain in my head | Clinical keywords: ache, discomfort, pain, soreness",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness."
+    }
+  },
+  {
+    "timestamp": "2026-07-20T21:45:49.587462",
+    "input_language": "English",
+    "original_text": "I have a lot oof pain in my head",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I have a lot oof pain in my head | Clinical keywords: ache, discomfort, pain, soreness",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness."
+    }
+  },
+  {
+    "timestamp": "2026-07-20T21:46:04.325013",
+    "input_language": "English",
+    "original_text": "I have a lot oof pain in my head",
+    "vitals": {
+      "hr": "200",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I have a lot oof pain in my head | Clinical keywords: ache, discomfort, pain, soreness, tachycardia",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "Cardiopulmonary System",
+      "pain_level": "Severe",
+      "duration": "Acute Presentation",
+      "severity": "CRITICAL",
+      "urgency_score": 1,
+      "category": "Emergency Resuscitation Unit",
+      "red_flags": [
+        "Extreme Unstable Tachycardia"
+      ],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=200.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness, tachycardia."
+    }
+  },
+  {
+    "timestamp": "2026-07-20T21:46:18.112574",
+    "input_language": "English",
+    "original_text": "I have a lot oof pain in my head",
+    "vitals": {
+      "hr": "100",
+      "bp": "",
+      "spo2": "",
+      "temp": "106"
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I have a lot oof pain in my head | Clinical keywords: ache, discomfort, pain, soreness",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "Cardiopulmonary System",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "HIGH",
+      "urgency_score": 2,
+      "category": "Acute Medical Intervention Zone",
+      "red_flags": [
+        "High-Grade Pyrexia / Potential Sepsis Pathway"
+      ],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=100.0, BP Systolic=120, SpO2=98.0%, Temp=106.0°F. Keyword cues detected: ache, discomfort, pain, soreness."
+    }
+  },
+  {
+    "timestamp": "2026-07-21T14:10:27.665765",
+    "input_language": "English",
+    "original_text": "MY head hurts",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: MY head hurts | Clinical keywords: concussion, head injury, head trauma, headache",
+      "native_audio_script": "Intake parameters integrated successfully into local records.",
+      "symptoms": [
+        "concussion",
+        "head injury",
+        "head trauma"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: concussion, head injury, head trauma, headache."
+    }
+  },
+  {
+    "timestamp": "2026-07-21T14:20:07.554214",
+    "input_language": "English",
+    "original_text": "Pain in my head",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: Pain in my head | Clinical keywords: ache, discomfort, pain, soreness",
+      "native_audio_script": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness.",
+      "symptoms": [
+        "ache",
+        "discomfort",
+        "pain"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: ache, discomfort, pain, soreness."
+    }
+  },
+  {
+    "timestamp": "2026-07-21T14:35:28.722089",
+    "input_language": "English",
+    "original_text": "I want to eat eat eat eat eat apples and banana score",
+    "vitals": {
+      "hr": "",
+      "bp": "",
+      "spo2": "",
+      "temp": ""
+    },
+    "allergies": "",
+    "medications": "",
+    "processed_output": {
+      "translation": "[Vitals-Linked Local Fallback] Patient presents with: I want to eat eat eat eat eat apples and banana score",
+      "native_audio_script": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: none.",
+      "symptoms": [
+        "want"
+      ],
+      "body_part": "General Evaluation Needed",
+      "pain_level": "Moderate",
+      "duration": "Acute Presentation",
+      "severity": "MEDIUM",
+      "urgency_score": 3,
+      "category": "General Medical Outpatient Clinic",
+      "red_flags": [],
+      "confidence": 0.75,
+      "explanation": "Calculated safely via strict local rule boundaries. Evaluated fields: HR=75.0, BP Systolic=120, SpO2=98.0%, Temp=98.6°F. Keyword cues detected: none."
+    }
   }
 ]
