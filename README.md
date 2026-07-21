@@ -20,3 +20,5 @@ How to Run the Project
 1. Clone this repository to your machine.
 2. Install the necessary dependencies: `pip install -r requirements.txt`.
 3. Launch the application: `python app.py` (or your main script name).
+
+I utilized OpenAI Codex during the initial setup to brainstorm what my idea was going to be, starting with the field, than expanding to the niche. After that, all my code was managed by Gemini.
